@@ -15,6 +15,16 @@ const TrafficLight = () => {
     }
   };
 
+  //Creo función y asigno el evento "on click" de cada luz, para apagar y encender al hacer click
+
+  const toggleLight = (lightColor) => {
+    if (activeLight === lightColor) {
+      setActiveLight('');
+    } else {
+      setActiveLight(lightColor);
+    }
+  };
+
   const toggleAutomaticMode = () => {
     setAutomaticMode(!automaticMode);
   };
@@ -25,37 +35,64 @@ const TrafficLight = () => {
     if (automaticMode) {
       intervalId = setInterval(() => {
         changeLight();
-      }, 2000); 
+      }, 2000);
     }
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [automaticMode]);
+    //Añado dependencia activeLight en el array para permitir el ciclo automatico
+  }, [automaticMode, activeLight]);
 
   return (
-    
+
     <div>
-        <div className='tittle'>
-            <h1>Traffic Light with React</h1>
-        </div>
+      <div className='tittle'>
+        <h1 style={{ color: 'purple', fontFamily: 'Arial', fontSize: '2.5rem', textShadow: '2px 2px 4px #000' }}>
+          Traffic Light with React
+        </h1>
+      </div>
       <div className="traffic-light">
         <div
           className={`light red ${activeLight === 'red' ? 'active' : ''}`}
-          onClick={changeLight}
+          onClick={() => toggleLight('red')}
         ></div>
         <div
           className={`light yellow ${activeLight === 'yellow' ? 'active' : ''}`}
-          onClick={changeLight}
+          onClick={() => toggleLight('yellow')}
         ></div>
         <div
           className={`light green ${activeLight === 'green' ? 'active' : ''}`}
-          onClick={changeLight}
+          onClick={() => toggleLight('green')}
         ></div>
       </div>
-      <button onClick={toggleAutomaticMode}>
+      <button
+        onClick={toggleAutomaticMode}
+        style={{
+          backgroundColor: 'purple',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          padding: '10px 20px',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+          transition: 'background-color 0.3s ease',
+          
+        }}
+      >
         {automaticMode ? 'Botón Manual' : 'Botón Automático'}
       </button>
+
+
+
+
+
+
+
+
+
     </div>
   );
 };
